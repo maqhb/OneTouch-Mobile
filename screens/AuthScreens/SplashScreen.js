@@ -6,11 +6,26 @@ import LottieView from 'lottie-react-native';
 //Third Party Exports Starts
 
 //Third Party Exports Ends
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {useDispatch} from "react-redux";
+import {loginUser} from "../../redux/ducks/auth/login/loginOps";
+import {actions} from "../../redux/ducks/auth/login/loginDuck";
 
 const SplashScreen = ({navigation}) => {
   const [Loading, setLoading] = useState(true);
-
+  const dispatch = useDispatch();
   useEffect(() => {
+    const token = AsyncStorage.getItem("Token").then((result)=>{
+      return result;
+    })
+    console.log(token)
+    if(token){
+      const user = AsyncStorage.getItem("User").then((result)=>{
+        return result;
+      })
+      console.log(user);
+      dispatch(actions.loginSuccess(user));
+    }
     StatusBar.setBarStyle('dark-content', true);
     StatusBar.setBackgroundColor('#FFFFFF');
   }, []);

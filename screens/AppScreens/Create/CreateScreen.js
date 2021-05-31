@@ -203,7 +203,7 @@ export default function CreateScreen({navigation}) {
         navigation={navigation}
       />
       <Screen feedBack={false}>
-        <Collaboration width="100%" height="38%" />
+        <Collaboration width="20%"  height="10%" />
         <KeyboardAvoidingView>
           <View style={styles.container}>
             <View style={styles.boxContainer}>

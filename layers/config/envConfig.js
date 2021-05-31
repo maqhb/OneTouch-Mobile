@@ -3,8 +3,8 @@ import constants from "./constants";
 const DEV = {
     ENV_NAME: constants.ENV_VARIABLES.DEV,
     API_URL: `https://onetouch-user.herokuapp.com`,
-    FEEDS_API_URL: 'http://localhost:5050',
-    PUBLISH_API_URL: 'http://localhost:5080',
+    FEEDS_API_URL: 'https://onetouch-feeds.herokuapp.com/',
+    PUBLISH_API_URL: 'https://onetouch-publish.herokuapp.com/',
 };
 
 const STAGE = {

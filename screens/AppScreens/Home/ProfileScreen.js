@@ -1,5 +1,5 @@
 //  Native Imports
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
@@ -13,12 +13,32 @@ import AppText from '../../../components/AppTexts/AppText';
 import AppButton from '../../../components/Buttons/AppButton';
 import {Avatar, Divider} from 'react-native-paper';
 import IconButton from '../../../components/Buttons/IconButton';
+import {useSelector} from "react-redux";
 
 export default function ProfileScreen({navigation}) {
+
+  const currUser = useSelector(state => state.currUserDetails.userDetails);
+  const currUserLoading =useSelector(state => state.currUserDetails.processingUserDetails);
+  const currUserError =useSelector(state => state.currUserDetails.failedUserDetails);
+
+  const [currPicture,setCurrPicture]=useState(null);
+  const [currFName,setCurrFName]=useState(null);
+  const [currLName,setCurrLName]=useState(null);
+  const [currEmail,setCurrEmail]=useState(null);
+
+  useEffect(()=>{
+    if(currUser){
+      setCurrPicture(currUser.user.profile_picture)
+      setCurrFName(currUser.user.first_name)
+      setCurrLName(currUser.user.last_name)
+      setCurrEmail(currUser.user.email)
+    }
+  }, [currUser])
+
   const [status, setStatus] = useState('active');
   const profileImage = 'https://i.pravatar.cc/525';
   const profileName = 'Robab Malick';
-  const profileJob = 'UX Designer';
+  const profileJob = '!UX Designer';
   const renderButton = (onPress, name, Icon) => {
     return (
       <TouchableOpacity style={styles.textButton} onPress={onPress}>
@@ -69,15 +89,15 @@ export default function ProfileScreen({navigation}) {
         <View style={styles.profileView}>
           <View style={styles.imageView}>
             <Avatar.Image
-              source={{uri: profileImage}}
+              source={{uri: currPicture}}
               size={160}
               style={{marginBottom: 5}}
             />
             <View
               style={[styles.innerCircle, {backgroundColor: colorHandler()}]}
             />
-            <AppText style={styles.appText}>{profileName}</AppText>
-            <AppText style={styles.subtitleText}>{profileJob}</AppText>
+            <AppText style={styles.appText}>{currFName+ " "+currLName}</AppText>
+            <AppText style={styles.subtitleText}>{currEmail}</AppText>
             <View style={styles.buttonView}>
               <AppButton
                 name="Edit Profile"

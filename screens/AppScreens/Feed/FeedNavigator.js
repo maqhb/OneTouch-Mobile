@@ -11,7 +11,9 @@ const {width,height} =Dimensions.get("screen");
 
 const Tab = createMaterialTopTabNavigator()
 
-export default function FeedNavigator({navigation}) {
+export default function FeedNavigator({navigation,route}) {
+    const {acc_id,acc_type} = route?.params ?? 'none'
+    console.log(acc_id)
     return (
        <Tab.Navigator 
        initialRouteName="Wall"
@@ -30,8 +32,8 @@ export default function FeedNavigator({navigation}) {
         }
        }
        >
-             <Tab.Screen name="Wall" component={WallScreen} navigation={navigation}/>
-             <Tab.Screen name="Timeline" component={TimelineScreen} navigation={navigation}/>
+             <Tab.Screen name="Wall" component={WallScreen} initialParams={{acc_id,acc_type}} navigation={navigation}/>
+             {/*<Tab.Screen name="Timeline" component={TimelineScreen} navigation={navigation}/>*/}
        </Tab.Navigator>
     )
 }

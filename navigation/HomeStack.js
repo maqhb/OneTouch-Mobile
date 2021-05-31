@@ -5,9 +5,12 @@ import HomeScreen from '../screens/AppScreens/Home/HomeScreen';
 import SettingsScreen from '../screens/AppScreens/Home/SettingsScreen';
 import ProfileScreen from '../screens/AppScreens/Home/ProfileScreen';
 import EditProfile from '../screens/AppScreens/Home/EditProfile';
+import FeedScreen from "../screens/AppScreens/Feed/FeedScreen";
+import PostScreen from "../screens/AppScreens/Feed/PostScreen";
 
 const Stack = createStackNavigator();
-const HomeStack = () => {
+const HomeStack = ({route, navigation}) => {
+    // const {acc_id,acc_type} = route.params
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -30,6 +33,18 @@ const HomeStack = () => {
         component={EditProfile}
         options={{headerShown: false}}
       />
+        <Stack.Screen
+            name="Feed"
+            component={FeedScreen}
+            options={{headerShown: true}}
+            navigation={navigation}
+            // initialParams={{acc_id,acc_type}}
+        />
+        <Stack.Screen
+            name="Post"
+            component={PostScreen}
+            options={{headerShown: false}}
+        />
     </Stack.Navigator>
   );
 };

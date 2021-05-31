@@ -10,12 +10,12 @@ export default function ListViewList({data, onPress}) {
           {data["teamSocialAccountDetails"][0]["SocialAccount"].map((item) => (
             <View style={styles.listContainer} key={item.key}>
               <ListView
-                key={item.key}
+                key={item.account_id}
                 title={item['first_name'] + " " + item['last_name']}
                 description={
                   item["account_type"]}
                 accountImageUri={item["profile_pic_url"]}
-                onPress={onPress}
+                onPress={()=>onPress(item["account_id"],item["account_type"])}
               />
             </View>
           ))}

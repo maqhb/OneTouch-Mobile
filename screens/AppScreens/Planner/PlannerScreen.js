@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,9 +12,79 @@ import AuthHeadText from '../../../components/AppTexts/AuthHeadText';
 
 import Header from '../../../components/Header';
 import Screen from '../../../components/Screen';
+import {getScheduledPosts} from "../../../layers/services/Publish";
+import {Card} from "react-native-paper";
+import {CardTitle} from "react-native-paper/src/components/Card/CardTitle";
+import CardContent from "react-native-paper/src/components/Card/CardContent";
 
 export default function PlannerScreen({navigation}) {
   const [selectedDate, setSelectedDate] = useState(null);
+
+  const [responseMsg,setResponse] = useState(null);
+  const [scheduleDetails, setScheduleDetails] = useState([])
+  const [postContents, setPostContents] = useState([])
+  const [events, setEvents] = useState([])
+  const [selectedJobData , setSelectedJobData] = useState(null)
+  const [refresh,setRefresh]=useState(false);
+
+  useEffect(() => {
+    getScheduledPosts(1, responseHandler)
+  }, []);
+
+  const responseHandler = (msg, data)=>{
+    if(!msg){
+      setPostContents(data.postContents)
+      setScheduleDetails(data.scheduleDetails)
+      console.log(data.scheduleDetails)
+    }
+    else{
+      setResponse(msg)
+
+    }
+  }
+
+  const getPostDetail = (postId)=>{
+    let postDetail
+    postContents.forEach((value, index)=>{
+      if (value._id === postId){
+        postDetail = value
+      }
+    })
+    return postDetail
+  }
+
+
+  useEffect(()=>{
+
+      if(scheduleDetails.length > 0 && events.length <= 0){
+        createEvents()
+      }
+
+  },[scheduleDetails])
+
+  const createEvents = ()=>{
+    let eventObjs = []
+    scheduleDetails.forEach((value, index)=>{
+      let postContent = getPostDetail(value.mongo_schedule_id)
+      if(postContent){
+        eventObjs.push({
+          'title': postContent.description || postContent.normalScheduleDate,
+          'allDay': true,
+          'start': value.one_time_schedule_date,
+          'end': value.one_time_schedule_date,
+          'data':{
+            scheduleDetails: value,
+            postContents: postContent
+          }
+        })
+      }
+    })
+    setEvents(eventObjs)
+    console.log(eventObjs)
+  }
+
+
+
   const date = new Date().getDate();
   const monthNames = [
     'January',
@@ -50,8 +120,31 @@ export default function PlannerScreen({navigation}) {
 
   return (
     <>
+
       <Header screenName="Planner" hasBack={false} navigation={navigation} />
+
       <Screen feedBack={false}>
+        {/*<View>*/}
+          {events &&
+              events.map((event,index)=>{
+                return(
+                    <View>
+                <Card>
+                <CardTitle title={event.title} subtitle={event.end}  />
+
+                <CardContent>
+
+                </CardContent>
+                </Card>
+                    </View>
+                )
+              })
+          // <Text>
+          //   {JSON.stringify(events)}
+          // </Text>
+          }
+        {/*</View>*/}
+
         <View style={styles.calenderContainer}>
           <CalendarPicker
             headerWrapperStyle={{
@@ -178,3 +271,4 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
 });
+

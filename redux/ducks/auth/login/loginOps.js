@@ -20,7 +20,7 @@ function setUser(data) {
     const { accessToken, user} = data;
     AsyncStorage.setItem("Token",accessToken);
     AsyncStorage.setItem("User",JSON.stringify(user));
-    AsyncStorage.setItem("CurrUserId",user.user_id);
+    AsyncStorage.setItem("CurrUserId",JSON.stringify(user.user_id));
     console.log("User Data Sets")
 }
 

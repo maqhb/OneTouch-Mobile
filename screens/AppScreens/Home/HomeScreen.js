@@ -8,6 +8,7 @@ import Header from '../../../components/Header';
 import SocialCard from '../../../components/Cards/SocialCard';
 import ListViewList from '../../../components/List/ListViewList';
 import {shallowEqual, useSelector} from "react-redux";
+import {navigate} from "@react-navigation/routers/src/CommonActions";
 
 const fakeAccounts = [
   {
@@ -37,6 +38,7 @@ export default function HomeScreen({navigation}) {
 
   useEffect(()=>{
     if(team){
+      console.log(team)
     setAccounts(team)
     }
   },[team])
@@ -55,6 +57,10 @@ export default function HomeScreen({navigation}) {
       console.log('youtube');
     }
   };
+
+  const onPressAction=(acc_id,acc_type)=>{
+    navigation.navigate('Feed', { acc_id,acc_type })
+  }
 
   return (
     <>
@@ -76,7 +82,7 @@ export default function HomeScreen({navigation}) {
             <View style={styles.listView}>
               <ListViewList
                 data={accounts}
-                onPress={() => console.log('Detail of Selected Card')}
+                onPress={(acc_id,acc_type) => onPressAction(acc_id,acc_type)}
               />
             </View>
           )}

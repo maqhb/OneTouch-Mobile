@@ -19,10 +19,6 @@ const Tab = createBottomTabNavigator();
 export default function AppNavigator() {
   const dispatch = useDispatch();
   useState(()=>{
-    AsyncStorage.getItem("Token")
-        .then((value)=>{
-          console.log(value)
-        })
     dispatch(getTeamDetails());
   },[])
 
@@ -67,11 +63,11 @@ export default function AppNavigator() {
         options={{tabBarIcon: tabBarIcon('pencil', 'Create')}}
         component={CreateStack}
       />
-      <Tab.Screen
-        name="Feed"
-        options={{tabBarIcon: tabBarIcon('list-alt', 'Feed')}}
-        component={FeedStack}
-      />
+      {/*<Tab.Screen*/}
+      {/*  name="Feed"*/}
+      {/*  options={{tabBarIcon: tabBarIcon('list-alt', 'Feed')}}*/}
+      {/*  component={FeedStack}*/}
+      {/*/>*/}
       <Tab.Screen
         name="Analytics"
         options={{tabBarIcon: tabBarIcon('bar-chart', 'Analytics')}}

@@ -10,8 +10,8 @@ import {useSelector} from "react-redux";
 
 export default function OneTouch() {
   // const [user, setUser] = useState(null);
-  const user = useSelector(state=>state.auth.user)
-  console.log(user);
+  var user = useSelector(state=>state.auth.user)
+  // console.log(user);
 
   return (
     <NavigationContainer>
